@@ -1,4 +1,4 @@
-pass
+
 from cs231n.layers import *
 from cs231n.fast_layers import *
 
@@ -37,7 +37,7 @@ def affine_batchnorm_forward(x, w, b, gamma, beta, bn_param):
 
     return bn_out, cache
 
-def affine_batchnorm_backward(dout, cache)
+def affine_batchnorm_backward(dout, cache):
     fc_cache, bn_cache = cache
     da, dgamma, dbeta = batchnorm_backward(dout, bn_cache)
     dx, dw, db = affine_backward(da, fc_cache)
