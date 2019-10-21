@@ -264,20 +264,32 @@ class FullyConnectedNet(object):
           
           W_i, b_i = self.params[W_name], self.params[b_name]
           
+          cache = None
           if self.use_batchnorm:
             gamma_i, beta_i = self.params[gamma_name], self.params[beta_name]
             #Batch Normalization
             bn_out_i, bn_cach_i = affine_batchnorm_forward(prev_input, W_i, b_i, gamma_i, beta_i, self.bn_params[i])
             #ReLU
-            relu_out_i, relu_cache_i = relu_forward(bn_out_i)
-
-            #H_i, cache_Hi = affine_relu_forward(prev_input, W_i, b_i)
-            caches['cache_H' + str(i + 1)] = (bn_cach_i, relu_cache_i)
-            prev_input = relu_out_i          
+            relu_out_i, relu_cache_i = relu_forward(bn_out_i)            
+            #Dropout
+            if self.use_dropout:
+              dropout_i, dropout_cache_i = dropout_forward(relu_out_i, self.dropout_param)
+              caches['cache_H' + str(i + 1)] = (bn_cach_i, relu_cache_i, dropout_cache_i)
+              prev_input = dropout_i
+            else:
+              caches['cache_H' + str(i + 1)] = (bn_cach_i, relu_cache_i)
+              prev_input = relu_out_i          
+          
           else:
-            H_i, cache_Hi = affine_relu_forward(prev_input, W_i, b_i)
-            caches['cache_H' + str(i + 1)] = cache_Hi
-            prev_input = H_i
+            affine_relu_i, cache_affine_relu_i = affine_relu_forward(prev_input, W_i, b_i)
+            #Dropout
+            if self.use_dropout:
+              dropout_i, dropout_cache_i = dropout_forward(affine_relu_i, self.dropout_param)
+              caches['cache_H' + str(i + 1)] = (cache_affine_relu_i, dropout_cache_i)
+              prev_input = dropout_i
+            else:
+              caches['cache_H' + str(i + 1)] = cache_affine_relu_i
+              prev_input = affine_relu_i
 
         # Last Layer
         W_name, b_name = 'W' + str(self.num_layers), 'b' + str(self.num_layers)
@@ -317,12 +329,24 @@ class FullyConnectedNet(object):
 
           if self.use_batchnorm:
             gamma_name, beta_name = 'gamma' + str(i + 1), 'beta' + str(i + 1)
-            bn_cach_i, relu_cache_i = caches['cache_H' + str(i + 1)]
+            
+            if self.use_dropout:
+              bn_cach_i, relu_cache_i, dropout_cache_i = caches['cache_H' + str(i + 1)]
+              dH_prev = dropout_backward(dH_prev, dropout_cache_i)
+            else:            
+              bn_cach_i, relu_cache_i = caches['cache_H' + str(i + 1)]              
             
             da = relu_backward(dH_prev, relu_cache_i)
             dH_prev, grads[W_name], grads[b_name], grads[gamma_name], grads[beta_name] = affine_batchnorm_backward(da, bn_cach_i)
+          
           else:
-            dH_prev, grads[W_name], grads[b_name] = affine_relu_backward(dH_prev, caches['cache_H' + str(i + 1)])
+            if self.use_dropout:
+              cache_affine_relu_i, dropout_cache_i = caches['cache_H' + str(i + 1)]
+              dH_prev = dropout_backward(dH_prev, dropout_cache_i)
+            else:
+              cache_affine_relu_i = caches['cache_H' + str(i + 1)]
+
+            dH_prev, grads[W_name], grads[b_name] = affine_relu_backward(dH_prev, cache_affine_relu_i)
 
         # Regularization
         for k, v in grads.items():
