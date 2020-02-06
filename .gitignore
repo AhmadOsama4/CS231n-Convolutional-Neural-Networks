@@ -2,3 +2,6 @@
 .vscode/
 *.so
 .idea/
+**/coco_captioning/**
+imagenet_val_25.npz
+squeezenet.ckpt.*
