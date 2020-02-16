@@ -137,7 +137,44 @@ class CaptioningRNN(object):
         # defined above to store loss and gradients; grads[k] should give the      #
         # gradients for self.params[k].                                            #
         ############################################################################
-        pass
+        #N, D = features.shape
+        #_, T, = captions.shape
+        #print("N:", N, ",D:", D, ",T:", T, ",H:", W_proj.shape[1])
+        h0, h0_cache = affine_forward(features, W_proj, b_proj)
+        #print(h0.shape)
+        # convert to word embedding
+        embed_x, embed_cache = word_embedding_forward(captions_in, W_embed)
+        #print(embed_x.shape)
+
+        h, rnn_cache = rnn_forward(embed_x, h0, Wx, Wh, b)
+        y, y_cache = temporal_affine_forward(h, W_vocab, b_vocab)
+        loss, dy = temporal_softmax_loss(y, captions_out, mask)
+
+        dh, dW_vocab, db_vocab = temporal_affine_backward(dy, y_cache)
+        #dx, dh0, dWx, dWh, db = rnn_backward(dh, rnn_cache)
+        d_embed_x, dh0, dWx, dWh, db = rnn_backward(dh, rnn_cache)
+        dW_embed = word_embedding_backward(d_embed_x, embed_cache)
+        _, dW_proj, db_proj = affine_backward(dh0, h0_cache)
+
+        # self.params['Wx'] = np.random.randn(wordvec_dim, dim_mul * hidden_dim)
+        # self.params['Wx'] /= np.sqrt(wordvec_dim)
+        # self.params['Wh'] = np.random.randn(hidden_dim, dim_mul * hidden_dim)
+        # self.params['Wh'] /= np.sqrt(hidden_dim)
+        # self.params['b'] = np.zeros(dim_mul * hidden_dim)
+        #
+        # # Initialize output to vocab weights
+        # self.params['W_vocab'] = np.random.randn(hidden_dim, vocab_size)
+        # self.params['W_vocab'] /= np.sqrt(hidden_dim)
+        # self.params['b_vocab'] = np.zeros(vocab_size)
+
+        grads["W_embed"] = dW_embed
+        grads["W_proj"] = dW_proj
+        grads["b_proj"] = db_proj
+        grads["Wx"] = dWx
+        grads["Wh"] = dWh
+        grads["b"] = db
+        grads["W_vocab"] = dW_vocab
+        grads["b_vocab"] = db_vocab
         ############################################################################
         #                             END OF YOUR CODE                             #
         ############################################################################
