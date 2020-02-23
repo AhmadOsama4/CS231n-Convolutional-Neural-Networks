@@ -280,7 +280,21 @@ def lstm_step_forward(x, prev_h, prev_c, Wx, Wh, b):
     # TODO: Implement the forward pass for a single timestep of an LSTM.        #
     # You may want to use the numerically stable sigmoid implementation above.  #
     #############################################################################
-    pass
+    N, D = x.shape
+    _, H = prev_h.shape
+    a = x.dot(Wx) + prev_h.dot(Wh) + b
+    i = sigmoid(a[:, :H])
+    f = sigmoid(a[:, H: 2 * H])
+    o = sigmoid(a[:, 2 * H: 3 * H])
+    g = np.tanh(a[:, 3 * H:])
+
+    tmp_cf = np.multiply(prev_c, f)
+    tmp_ig = np.multiply(i, g)
+
+    next_c = tmp_cf + tmp_ig
+    next_h = np.multiply(np.tanh(next_c), o)
+
+    cache = (o, next_c, i, f, g, prev_c, N, D, H, Wx, Wh, x, prev_h, a)
     ##############################################################################
     #                               END OF YOUR CODE                             #
     ##############################################################################
@@ -312,7 +326,38 @@ def lstm_step_backward(dnext_h, dnext_c, cache):
     # HINT: For sigmoid and tanh you can compute local derivatives in terms of  #
     # the output value from the nonlinearity.                                   #
     #############################################################################
-    pass
+    o, next_c, i, f, g, prev_c, N, D, H, Wx, Wh, x, prev_h, a = cache
+    dCt = dnext_h * np.multiply(o, (1 / (np.cosh(next_c) ** 2)))
+    dCt = dnext_c + dCt
+
+    do = dnext_h * np.tanh(next_c)
+    di = dCt * g
+    dg = dCt * i
+    df = dCt * prev_c
+
+    a_i = a[:, :H]
+    a_f = a[:, H: 2 * H]
+    a_o = a[:, 2 * H: 3 * H]
+    a_g = a[:, 3 * H:]
+
+    da_o = do * (sigmoid(a_o) * (1 - sigmoid(a_o)))
+    da_i = di * (sigmoid(a_i) * (1 - sigmoid(a_i)))
+    da_g = dg * (1 / (np.cosh(a_g) ** 2))
+    da_f = df * (sigmoid(a_f) * (1 - sigmoid(a_f)))
+
+    dW = np.zeros((N, 4 * H))
+    dW[:, :H] = da_i
+    dW[:, H: 2 * H] = da_f
+    dW[:, 2 * H: 3 * H] = da_o
+    dW[:, 3 * H:] = da_g
+
+    dx = np.dot(dW, Wx.T)
+    dWx = np.dot(x.T, dW)
+    dprev_h = np.dot(dW, Wh.T)
+    dWh = np.dot(prev_h.T, dW)
+    db = dW.sum(axis = 0)
+    dprev_c = dCt * f
+
     ##############################################################################
     #                               END OF YOUR CODE                             #
     ##############################################################################
