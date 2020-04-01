@@ -3,7 +3,7 @@
 
 My solutions to the assignment of Stanford's course CS231n: Convolutional Neural Networks for Visual Recognition, [Spring 2017](http://cs231n.stanford.edu/2017/syllabus.html](http://cs231n.stanford.edu/2017/syllabus.html)).
 
-If you are starting to work on this course you could work on the [assignments of Spring 2019]([http://cs231n.stanford.edu/2019/syllabus.html](http://cs231n.stanford.edu/2019/syllabus.html)), you could find the assignments and  some tutorial notebooks, also the Tensorflow notebooks for the assignments are in Tensorflow *version 2* unlike Spring 2017.
+If you are starting to work on this course you could work on the [assignments of Spring 2019](http://cs231n.stanford.edu/2019/syllabus.html), you could find the assignments and  some tutorial notebooks, also the Tensorflow notebooks for the assignments are in Tensorflow *version 2* unlike Spring 2017.
 
 The assignments details are listed below:
 
