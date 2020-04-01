@@ -9,7 +9,7 @@ The assignments details are listed below:
 
 ### Assignment 1
 * [Q1](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment1/knn.ipynb): k-Nearest Neighbor classifier
-* [Q2](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment1/svm.ipynb](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment1/svm.ipynb)): Training a Support Vector Machine
+* [Q2](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment1/svm.ipynb]: Training a Support Vector Machine
 * [Q3](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment1/softmax.ipynb): Implement a Softmax classifier
 * [Q4](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment1/two_layer_net.ipynb): Two-Layer Neural Network
 * [Q5](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment1/features.ipynb): Higher Level Representations: Image Features
@@ -22,7 +22,7 @@ The assignments details are listed below:
 * [Q5](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment2/TensorFlow.ipynb): PyTorch / TensorFlow on CIFAR-10 (Done using Tensorflow V1)
 
 ### Assigment 3
-* [Q1](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment3/RNN_Captioning.ipynb](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment3/RNN_Captioning.ipynb)): Image Captioning with Vanilla RNNs
+* [Q1](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment3/RNN_Captioning.ipynb): Image Captioning with Vanilla RNNs
 * [Q2](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment3/LSTM_Captioning.ipynb): Image Captioning with LSTMs
 * [Q3](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment3/NetworkVisualization-PyTorch.ipynb): Network Visualization: Saliency maps, Class Visualization, and Fooling Images *(Done using Pytorch)*
 * [Q4](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment3/StyleTransfer-PyTorch.ipynb): Style Transfer  *(Done using Pytorch)*
