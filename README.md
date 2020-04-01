@@ -9,7 +9,7 @@ The assignments details are listed below:
 
 ### Assignment 1
 * [Q1](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment1/knn.ipynb): k-Nearest Neighbor classifier
-* [Q2](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment1/svm.ipynb]: Training a Support Vector Machine
+* [Q2](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment1/svm.ipynb): Training a Support Vector Machine
 * [Q3](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment1/softmax.ipynb): Implement a Softmax classifier
 * [Q4](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment1/two_layer_net.ipynb): Two-Layer Neural Network
 * [Q5](https://github.com/AhmadOsama4/CS231n-Convolutional-Neural-Networks/blob/master/assignment1/features.ipynb): Higher Level Representations: Image Features
